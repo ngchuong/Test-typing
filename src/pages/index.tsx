@@ -24,7 +24,8 @@ const Home: NextPage = () => {
   const [remainStr, setRemainStr] = useState<string[]>(listString);
 
   // timer
-  const [timer, setTimer] = useState(5);
+  const initTime = 60;
+  const [timer, setTimer] = useState(initTime);
 
   useEffect(() => {
     const intervalTimer = setInterval(() => {
@@ -70,7 +71,47 @@ const Home: NextPage = () => {
 
   // TODO: timeup
   if (timer <= 0) {
-    return <Box>Time up</Box>;
+    return (
+      <Box
+        sx={{
+          width: 400,
+          height: 200,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          border: "2px solid green",
+        }}
+        mt={2}
+        ml={2}
+        p={2}
+      >
+        <Box
+          sx={{
+            fontWeight: "bold",
+            fontSize: "25px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          mb={4}
+        >
+          Result
+        </Box>
+        <Box>{`Number of word typed: ${numberWordTyped}`}</Box>
+        <Box>{`Correct words: ${
+          arrResult.filter((el) => el === true).length
+        }`}</Box>
+        <Box>{`Wrong words: ${
+          arrResult.filter((el) => el === false).length
+        }`}</Box>
+        <Box>{`Typing speed: ${(
+          numberWordTyped / initTime
+        ).toLocaleString()} word/s`}</Box>
+        <Box>{`Accuracy: ${(
+          (arrResult.filter((el) => el === true).length * 100) /
+          numberWordTyped
+        ).toFixed(2)} %`}</Box>
+      </Box>
+    );
   }
 
   return (
@@ -135,6 +176,12 @@ const Home: NextPage = () => {
       </Box>
       <Box>
         <Box>{`Number of word typed: ${numberWordTyped}`}</Box>
+        <Box>{`Number of words correctly typed: ${
+          arrResult.filter((el) => el === true).length
+        }`}</Box>
+        <Box>{`Number of misspelled words: ${
+          arrResult.filter((el) => el === false).length
+        }`}</Box>
         <Box>{`Timer: ${timer}`}s</Box>
       </Box>
     </div>
